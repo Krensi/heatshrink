@@ -1,7 +1,10 @@
+#include "heatshrink_encoder.h"
+
+#if !defined(HEATSHRINK_NO_STD) || HEATSHRINK_NO_STD == 0
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "heatshrink_encoder.h"
+#endif
 
 typedef enum {
     HSES_NOT_FULL,              /* input buffer not full enough */

@@ -1,10 +1,12 @@
 #ifndef HEATSHRINK_DECODER_H
 #define HEATSHRINK_DECODER_H
 
+#include "heatshrink_common.h"
+
+#if !defined(HEATSHRINK_NO_STD) || HEATSHRINK_NO_STD == 0
 #include <stdint.h>
 #include <stddef.h>
-#include "heatshrink_common.h"
-#include "heatshrink_config.h"
+#endif
 
 typedef enum {
     HSDR_SINK_OK,               /* data sunk, ready to poll */

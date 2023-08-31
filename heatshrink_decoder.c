@@ -1,6 +1,9 @@
+#include "heatshrink_decoder.h"
+
+#if !defined(HEATSHRINK_NO_STD) || HEATSHRINK_NO_STD == 0
 #include <stdlib.h>
 #include <string.h>
-#include "heatshrink_decoder.h"
+#endif
 
 /* States for the polling state machine. */
 typedef enum {

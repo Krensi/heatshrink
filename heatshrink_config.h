@@ -2,8 +2,15 @@
 #define HEATSHRINK_CONFIG_H
 
 /* Should functionality assuming dynamic allocation be used? */
+#ifndef HEATSHRINK_NO_STD
+#define HEATSHRINK_NO_STD 0
 #ifndef HEATSHRINK_DYNAMIC_ALLOC
 #define HEATSHRINK_DYNAMIC_ALLOC 1
+#endif
+#endif
+
+#if defined(HEATSHRINK_NO_STD) && HEATSHRINK_NO_STD == 1
+#define HEATSHRINK_DYNAMIC_ALLOC 0
 #endif
 
 #if HEATSHRINK_DYNAMIC_ALLOC
