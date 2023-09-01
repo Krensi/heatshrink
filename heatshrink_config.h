@@ -1,15 +1,10 @@
 #ifndef HEATSHRINK_CONFIG_H
 #define HEATSHRINK_CONFIG_H
 
-/* Should functionality assuming dynamic allocation be used? */
-#ifndef HEATSHRINK_NO_STD
-#define HEATSHRINK_NO_STD 0
-#ifndef HEATSHRINK_DYNAMIC_ALLOC
-#define HEATSHRINK_DYNAMIC_ALLOC 1
-#endif
-#endif
+#include "heatshrink_utilities.h"
 
-#if defined(HEATSHRINK_NO_STD) && HEATSHRINK_NO_STD == 1
+/* Should functionality assuming dynamic allocation be used? */
+#ifndef HEATSHRINK_DYNAMIC_ALLOC
 #define HEATSHRINK_DYNAMIC_ALLOC 0
 #endif
 
@@ -20,7 +15,7 @@
 #else
     /* Required parameters for static configuration */
     #define HEATSHRINK_STATIC_INPUT_BUFFER_SIZE 32
-    #define HEATSHRINK_STATIC_WINDOW_BITS 8
+    #define HEATSHRINK_STATIC_WINDOW_BITS 11
     #define HEATSHRINK_STATIC_LOOKAHEAD_BITS 4
 #endif
 

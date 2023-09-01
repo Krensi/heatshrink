@@ -2,11 +2,7 @@
 #define HEATSHRINK_DECODER_H
 
 #include "heatshrink_common.h"
-
-#if !defined(HEATSHRINK_NO_STD) || HEATSHRINK_NO_STD == 0
-#include <stdint.h>
-#include <stddef.h>
-#endif
+#include "heatshrink_config.h"
 
 typedef enum {
     HSDR_SINK_OK,               /* data sunk, ready to poll */
@@ -44,26 +40,26 @@ typedef enum {
 #endif
 
 typedef struct {
-    uint16_t input_size;        /* bytes in input buffer */
-    uint16_t input_index;       /* offset to next unprocessed input byte */
-    uint16_t output_count;      /* how many bytes to output */
-    uint16_t output_index;      /* index for bytes to output */
-    uint16_t head_index;        /* head of window buffer */
-    uint8_t state;              /* current state machine node */
-    uint8_t current_byte;       /* current byte of input */
-    uint8_t bit_index;          /* current bit index */
+    unsigned short input_size;        /* bytes in input buffer */
+    unsigned short input_index;       /* offset to next unprocessed input byte */
+    unsigned short output_count;      /* how many bytes to output */
+    unsigned short output_index;      /* index for bytes to output */
+    unsigned short head_index;        /* head of window buffer */
+    unsigned char state;              /* current state machine node */
+    unsigned char current_byte;       /* current byte of input */
+    unsigned char bit_index;          /* current bit index */
 
 #if HEATSHRINK_DYNAMIC_ALLOC
     /* Fields that are only used if dynamically allocated. */
-    uint8_t window_sz2;         /* window buffer bits */
-    uint8_t lookahead_sz2;      /* lookahead bits */
-    uint16_t input_buffer_size; /* input buffer size */
+    unsigned char window_sz2;         /* window buffer bits */
+    unsigned char lookahead_sz2;      /* lookahead bits */
+    unsigned short input_buffer_size; /* input buffer size */
 
     /* Input buffer, then expansion window buffer */
-    uint8_t buffers[];
+    unsigned char buffers[];
 #else
     /* Input buffer, then expansion window buffer */
-    uint8_t buffers[(1 << HEATSHRINK_DECODER_WINDOW_BITS(_))
+    unsigned char buffers[(1 << HEATSHRINK_DECODER_WINDOW_BITS(_))
         + HEATSHRINK_DECODER_INPUT_BUFFER_SIZE(_)];
 #endif
 } heatshrink_decoder;
@@ -74,8 +70,8 @@ typedef struct {
  * size of 2^lookahead_sz2. (The window buffer and lookahead sizes
  * must match the settings used when the data was compressed.)
  * Returns NULL on error. */
-heatshrink_decoder *heatshrink_decoder_alloc(uint16_t input_buffer_size,
-    uint8_t expansion_buffer_sz2, uint8_t lookahead_sz2);
+heatshrink_decoder *heatshrink_decoder_alloc(unsigned short input_buffer_size,
+    unsigned char expansion_buffer_sz2, unsigned char lookahead_sz2);
 
 /* Free a decoder. */
 void heatshrink_decoder_free(heatshrink_decoder *hsd);
@@ -87,12 +83,12 @@ void heatshrink_decoder_reset(heatshrink_decoder *hsd);
 /* Sink at most SIZE bytes from IN_BUF into the decoder. *INPUT_SIZE is set to
  * indicate how many bytes were actually sunk (in case a buffer was filled). */
 HSD_sink_res heatshrink_decoder_sink(heatshrink_decoder *hsd,
-    uint8_t *in_buf, size_t size, size_t *input_size);
+    unsigned char *in_buf, unsigned long size, unsigned long *input_size);
 
 /* Poll for output from the decoder, copying at most OUT_BUF_SIZE bytes into
  * OUT_BUF (setting *OUTPUT_SIZE to the actual amount copied). */
 HSD_poll_res heatshrink_decoder_poll(heatshrink_decoder *hsd,
-    uint8_t *out_buf, size_t out_buf_size, size_t *output_size);
+    unsigned char *out_buf, unsigned long out_buf_size, unsigned long *output_size);
 
 /* Notify the dencoder that the input stream is finished.
  * If the return value is HSDR_FINISH_MORE, there is still more output, so
